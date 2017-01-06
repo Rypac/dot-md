@@ -17,6 +17,7 @@ public class OpenSourceLicensesActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+            actionBar.setTitle(getResources().getString(R.string.open_source_licenses));
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
