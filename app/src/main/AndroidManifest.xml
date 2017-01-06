@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="xyz.devspace.md">
+    package="com.braindump.md">
 
     <application
         android:allowBackup="true"
@@ -65,7 +65,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="xyz.devspace.md.MainActivity" />
+                android:value="com.braindump.md.MainActivity" />
         </activity>
     </application>
 

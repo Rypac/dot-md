@@ -1,4 +1,4 @@
-package xyz.devspace.md;
+package com.braindump.md;
 
 import android.app.Activity;
 import android.content.Intent;

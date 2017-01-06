@@ -1,4 +1,4 @@
-package xyz.devspace.md;
+package com.braindump.md;
 
 import android.content.Intent;
 import android.database.Cursor;
