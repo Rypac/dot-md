@@ -1,9 +1,11 @@
 package xyz.devspace.md;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -37,6 +39,10 @@ public class MarkdownViewerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Uri data = intent.getData();
         if (data != null) {
+            String fileName = readFileName(data);
+            if (fileName != null && actionBar != null) {
+                actionBar.setTitle(fileName);
+            }
             new ParseMarkdownTask().execute(data);
         } else {
             displayErrorAndExit();
@@ -50,6 +56,23 @@ public class MarkdownViewerActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private String readFileName(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        if (cursor == null) {
+            return null;
+        }
+
+        String result = null;
+        try {
+            if (cursor.moveToFirst()) {
+                result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            }
+        } finally {
+            cursor.close();
+        }
+        return result;
     }
 
     private void displayErrorAndExit() {
