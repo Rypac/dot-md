@@ -21,11 +21,7 @@
         <activity
             android:name=".MarkdownViewerActivity"
             android:label="@string/title_activity_markdown_viewer"
-            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="xyz.devspace.md.MainActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
