@@ -10,7 +10,7 @@ android {
         versionCode 1
         versionName "0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary = true
+        vectorDrawables.useSupportLibrary true
     }
     buildTypes {
         release {
@@ -28,8 +28,8 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.atlassian.commonmark:commonmark:0.8.0'
-    compile 'org.sufficientlysecure:html-textview:3.1'
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
+    compile 'com.atlassian.commonmark:commonmark:0.8.0'
+    compile 'org.sufficientlysecure:html-textview:3.1'
 }
