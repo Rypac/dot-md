@@ -9,6 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import in.uncod.android.bypass.Bypass;
 
 public class MarkdownViewerActivity extends AppCompatActivity {
 
@@ -27,8 +34,19 @@ public class MarkdownViewerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Uri data = intent.getData();
         if (data != null) {
-            View view = findViewById(R.id.content_markdown_viewer);
-            Snackbar.make(view, "Uri: " + data.toString(), Snackbar.LENGTH_LONG).show();
+            try {
+                String markdown = getStringFromFile(data);
+                Bypass bypass = new Bypass();
+                CharSequence string = bypass.markdownToSpannable(markdown);
+                TextView text = (TextView) findViewById(R.id.rendered_markdown);
+                text.setText(string);
+            } catch (Exception e) {
+                View view = findViewById(R.id.coordinator_markdown_viewer);
+                Snackbar.make(view, "Unable to parse markdown.", Snackbar.LENGTH_LONG).show();
+            }
+        } else {
+            View view = findViewById(R.id.coordinator_markdown_viewer);
+            Snackbar.make(view, "No markdown to view.", Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -40,4 +58,26 @@ public class MarkdownViewerActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private String getStringFromFile(Uri uri) throws Exception {
+        InputStream fileInputStream = getContentResolver().openInputStream(uri);
+        if (fileInputStream != null) {
+            String string = convertStreamToString(fileInputStream);
+            fileInputStream.close();
+            return string;
+        }
+        return null;
+    }
+
+    private String convertStreamToString(InputStream is) throws Exception {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line).append("\n");
+        }
+        reader.close();
+        return sb.toString();
+    }
+
 }
