@@ -2,7 +2,9 @@ package xyz.devspace.md;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -35,12 +37,9 @@ public class MarkdownViewerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Uri data = intent.getData();
         if (data != null) {
-            String renderedMarkdown = parseMarkdownFile(data);
-            HtmlTextView htmlTextView = (HtmlTextView) findViewById(R.id.rendered_markdown);
-            htmlTextView.setHtml(renderedMarkdown);
+            new ParseMarkdownTask().execute(data);
         } else {
-            View view = findViewById(R.id.coordinator_markdown_viewer);
-            Snackbar.make(view, "No markdown to view.", Snackbar.LENGTH_LONG).show();
+            displayErrorAndExit();
         }
     }
 
@@ -53,36 +52,57 @@ public class MarkdownViewerActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private String parseMarkdownFile(Uri uri) {
-        String markdown = getStringFromFile(uri);
-        Parser parser = Parser.builder().build();
-        HtmlRenderer renderer = HtmlRenderer.builder().build();
-        return renderer.render(parser.parse(markdown));
+    private void displayErrorAndExit() {
+        View view = findViewById(R.id.coordinator_markdown_viewer);
+        Snackbar
+            .make(view, R.string.no_markdown, Snackbar.LENGTH_SHORT)
+            .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                @Override
+                public void onDismissed(Snackbar transientBottomBar, int event) {
+                    finish();
+                }
+            })
+            .show();
     }
 
-    private String getStringFromFile(Uri uri) {
-        try {
-            InputStream fileInputStream = getContentResolver().openInputStream(uri);
-            if (fileInputStream != null) {
-                String string = convertStreamToString(fileInputStream);
-                fileInputStream.close();
-                return string;
+    private class ParseMarkdownTask extends AsyncTask<Uri, Void, String> {
+        @Override
+        protected String doInBackground(Uri... params) {
+            String markdown = getStringFromFile(params[0]);
+            Parser parser = Parser.builder().build();
+            HtmlRenderer renderer = HtmlRenderer.builder().build();
+            return renderer.render(parser.parse(markdown));
+        }
+
+        protected void onPostExecute(String markdown) {
+            HtmlTextView htmlTextView = (HtmlTextView) findViewById(R.id.rendered_markdown);
+            htmlTextView.setHtml(markdown);
+        }
+
+        private String getStringFromFile(Uri uri) {
+            try {
+                InputStream fileInputStream = getContentResolver().openInputStream(uri);
+                if (fileInputStream != null) {
+                    String string = convertStreamToString(fileInputStream);
+                    fileInputStream.close();
+                    return string;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            return null;
         }
-        return null;
-    }
 
-    private String convertStreamToString(InputStream is) throws Exception {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            sb.append(line).append("\n");
+        private String convertStreamToString(InputStream is) throws Exception {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+            reader.close();
+            return sb.toString();
         }
-        reader.close();
-        return sb.toString();
     }
 
 }
