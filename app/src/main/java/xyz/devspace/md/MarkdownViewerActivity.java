@@ -24,6 +24,8 @@ import java.io.InputStreamReader;
 
 public class MarkdownViewerActivity extends AppCompatActivity {
 
+    private ParseMarkdownTask parseMarkdownTask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +45,18 @@ public class MarkdownViewerActivity extends AppCompatActivity {
             if (fileName != null && actionBar != null) {
                 actionBar.setTitle(fileName);
             }
-            new ParseMarkdownTask().execute(data);
+            parseMarkdownTask = new ParseMarkdownTask();
+            parseMarkdownTask.execute(data);
         } else {
             displayErrorAndExit();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (parseMarkdownTask != null && !parseMarkdownTask.isCancelled()) {
+            parseMarkdownTask.cancel(true);
         }
     }
 
