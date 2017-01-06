@@ -2,10 +2,8 @@ package xyz.devspace.md;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -53,9 +51,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (resultCode == Activity.RESULT_OK && resultData != null) {
-            View view = findViewById(R.id.coordinator_main);
-            Uri uri = resultData.getData();
-            Snackbar.make(view, "Uri: " + uri.toString(), Snackbar.LENGTH_LONG).show();
+            Intent intent = new Intent(this, MarkdownViewerActivity.class);
+            intent.setData(resultData.getData());
+            startActivity(intent);
         }
     }
+
 }
