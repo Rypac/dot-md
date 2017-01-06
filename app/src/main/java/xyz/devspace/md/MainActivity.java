@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("*/*");
+                intent.setType("application/*");
                 startActivityForResult(intent, READ_REQUEST_CODE);
             }
         });
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_licenses) {
+            startActivity(new Intent(this, OpenSourceLicensesActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

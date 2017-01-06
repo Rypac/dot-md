@@ -58,6 +58,15 @@
                 <data android:mimeType="text/x-markdown" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".OpenSourceLicensesActivity"
+            android:label="@string/title_activity_open_source_licenses"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="xyz.devspace.md.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

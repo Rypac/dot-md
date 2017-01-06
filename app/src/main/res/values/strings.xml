@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">.md</string>
-    <string name="action_licenses">Open-source licenses</string>
+    <string name="menu_action_licenses">Open source licenses</string>
     <string name="main_screen_description">Select a Markdown file to view</string>
-    <string name="title_activity_markdown_viewer">Markdown Viewer</string>
     <string name="no_markdown">No markdown received.</string>
+    <string name="title_activity_markdown_viewer">Markdown viewer</string>
+    <string name="title_activity_open_source_licenses">Open source licenses</string>
 </resources>
