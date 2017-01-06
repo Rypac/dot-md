@@ -1,6 +1,8 @@
 package xyz.devspace.md;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -42,5 +44,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return item.getItemId() == R.id.action_settings || super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        if (requestCode != READ_REQUEST_CODE) {
+            return;
+        }
+
+        if (resultCode == Activity.RESULT_OK && resultData != null) {
+            View view = findViewById(R.id.coordinator_main);
+            Uri uri = resultData.getData();
+            Snackbar.make(view, "Uri: " + uri.toString(), Snackbar.LENGTH_LONG).show();
+        }
     }
 }
