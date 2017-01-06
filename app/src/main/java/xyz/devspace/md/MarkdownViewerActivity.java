@@ -19,6 +19,7 @@ import org.commonmark.renderer.html.HtmlRenderer;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -102,40 +103,31 @@ public class MarkdownViewerActivity extends AppCompatActivity {
     private class ParseMarkdownTask extends AsyncTask<Uri, Void, String> {
         @Override
         protected String doInBackground(Uri... params) {
-            String markdown = getStringFromFile(params[0]);
-            Parser parser = Parser.builder().build();
-            HtmlRenderer renderer = HtmlRenderer.builder().build();
-            return renderer.render(parser.parse(markdown));
+            String markdown = null;
+            try (InputStream inputStream = getContentResolver().openInputStream(params[0])) {
+                if (inputStream != null) {
+                    try (
+                        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                        BufferedReader reader = new BufferedReader(inputStreamReader)
+                    ) {
+                        Parser parser = Parser.builder().build();
+                        HtmlRenderer renderer = HtmlRenderer.builder().build();
+                        markdown = renderer.render(parser.parseReader(reader));
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return markdown;
         }
 
         protected void onPostExecute(String markdown) {
-            HtmlTextView htmlTextView = (HtmlTextView) findViewById(R.id.rendered_markdown);
-            htmlTextView.setHtml(markdown);
-        }
-
-        private String getStringFromFile(Uri uri) {
-            try {
-                InputStream fileInputStream = getContentResolver().openInputStream(uri);
-                if (fileInputStream != null) {
-                    String string = convertStreamToString(fileInputStream);
-                    fileInputStream.close();
-                    return string;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (markdown != null) {
+                HtmlTextView htmlTextView = (HtmlTextView) findViewById(R.id.rendered_markdown);
+                htmlTextView.setHtml(markdown);
+            } else {
+                displayErrorAndExit();
             }
-            return null;
-        }
-
-        private String convertStreamToString(InputStream is) throws Exception {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append("\n");
-            }
-            reader.close();
-            return sb.toString();
         }
     }
 }
