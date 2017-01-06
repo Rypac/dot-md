@@ -41,7 +41,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return item.getItemId() == R.id.action_settings || super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_licenses) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -56,5 +59,4 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
 }

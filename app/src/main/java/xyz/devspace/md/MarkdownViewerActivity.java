@@ -127,5 +127,4 @@ public class MarkdownViewerActivity extends AppCompatActivity {
             return sb.toString();
         }
     }
-
 }
