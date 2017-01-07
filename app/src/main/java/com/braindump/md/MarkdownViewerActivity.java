@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -41,15 +43,21 @@ public class MarkdownViewerActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Uri data = intent.getData();
-        if (data != null) {
-            String fileName = readFileName(data);
-            if (fileName != null && actionBar != null) {
-                actionBar.setTitle(fileName);
-            }
+        if (data == null) {
+            displayErrorAndExit(getResources().getString(R.string.error_no_markdown_received));
+            return;
+        }
+
+        String fileName = fileName(data);
+        if (fileName != null && actionBar != null) {
+            actionBar.setTitle(fileName);
+        }
+
+        if (fileName != null && isMarkdownFile(fileName)) {
             parseMarkdownTask = new ParseMarkdownTask();
             parseMarkdownTask.execute(data);
         } else {
-            displayErrorAndExit();
+            displayErrorAndExit(getResources().getString(R.string.error_not_a_markdown_file));
         }
     }
 
@@ -70,7 +78,8 @@ public class MarkdownViewerActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private String readFileName(Uri uri) {
+    @Nullable
+    private String fileName(@NonNull Uri uri) {
         Cursor cursor = getContentResolver().query(uri, null, null, null, null);
         if (cursor == null) {
             return null;
@@ -87,10 +96,22 @@ public class MarkdownViewerActivity extends AppCompatActivity {
         return result;
     }
 
-    private void displayErrorAndExit() {
+    private boolean isMarkdownFile(@NonNull String fileName) {
+        String fileExtension = fileExtension(fileName);
+        return fileExtension != null &&
+            (fileExtension.equalsIgnoreCase("md") || fileExtension.equalsIgnoreCase("markdown"));
+    }
+
+    @Nullable
+    private String fileExtension(@NonNull String fileName) {
+        int index = fileName.lastIndexOf('.');
+        return index > 0 ? fileName.substring(index + 1) : null;
+    }
+
+    private void displayErrorAndExit(@NonNull String error) {
         View view = findViewById(R.id.container_markdown_viewer);
         Snackbar
-            .make(view, R.string.error_no_markdown_received, Snackbar.LENGTH_SHORT)
+            .make(view, error, Snackbar.LENGTH_SHORT)
             .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
                 @Override
                 public void onDismissed(Snackbar transientBottomBar, int event) {
@@ -102,7 +123,7 @@ public class MarkdownViewerActivity extends AppCompatActivity {
 
     private class ParseMarkdownTask extends AsyncTask<Uri, Void, String> {
         @Override
-        protected String doInBackground(Uri... params) {
+        protected String doInBackground(@NonNull Uri... params) {
             String markdown = null;
             try (InputStream inputStream = getContentResolver().openInputStream(params[0])) {
                 if (inputStream != null) {
@@ -121,12 +142,12 @@ public class MarkdownViewerActivity extends AppCompatActivity {
             return markdown;
         }
 
-        protected void onPostExecute(String markdown) {
+        protected void onPostExecute(@Nullable String markdown) {
             if (markdown != null) {
                 HtmlTextView htmlTextView = (HtmlTextView) findViewById(R.id.rendered_markdown);
                 htmlTextView.setHtml(markdown);
             } else {
-                displayErrorAndExit();
+                displayErrorAndExit(getResources().getString(R.string.error_parsing_markdown_file));
             }
         }
     }

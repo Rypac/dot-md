@@ -11,6 +11,8 @@
 
     <!-- Errors -->
     <string name="error_no_markdown_received">No markdown received.</string>
+    <string name="error_not_a_markdown_file">Not a valid markdown file.</string>
+    <string name="error_parsing_markdown_file">Unable to parse selected file.</string>
 
     <!-- Main activity -->
     <string name="activity_main_select_file">Select a markdown file to view</string>
