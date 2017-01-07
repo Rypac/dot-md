@@ -1,7 +1,17 @@
 <resources>
     <string name="app_name">.md</string>
-    <string name="file_selection_description">Select a Markdown file to view</string>
-    <string name="no_markdown_error">No markdown received.</string>
+
+    <!-- Titles -->
+    <string name="title_main">.md</string>
+    <string name="title_markdown_viewer">.md</string>
     <string name="title_licenses">Open source licenses</string>
+
+    <!-- Actions -->
     <string name="action_licenses">Open source licenses</string>
+
+    <!-- Errors -->
+    <string name="error_no_markdown_received">No markdown received.</string>
+
+    <!-- Main activity -->
+    <string name="activity_main_select_file">Select a markdown file to view</string>
 </resources>

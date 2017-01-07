@@ -90,7 +90,7 @@ public class MarkdownViewerActivity extends AppCompatActivity {
     private void displayErrorAndExit() {
         View view = findViewById(R.id.container_markdown_viewer);
         Snackbar
-            .make(view, R.string.no_markdown_error, Snackbar.LENGTH_SHORT)
+            .make(view, R.string.error_no_markdown_received, Snackbar.LENGTH_SHORT)
             .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
                 @Override
                 public void onDismissed(Snackbar transientBottomBar, int event) {
