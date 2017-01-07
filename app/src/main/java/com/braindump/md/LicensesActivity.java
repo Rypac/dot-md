@@ -6,23 +6,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
 
-public class OpenSourceLicensesActivity extends AppCompatActivity {
+public class LicensesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_open_source_licenses);
+        setContentView(R.layout.activity_licenses);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(getResources().getString(R.string.open_source_licenses));
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
         WebView webView = (WebView) findViewById(R.id.license_web_view);
-        webView.loadUrl("file:///android_asset/open_source_licenses.html");
+        webView.loadUrl("file:///android_asset/licenses.html");
     }
 
 }

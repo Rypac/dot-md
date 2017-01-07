@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_licenses) {
-            startActivity(new Intent(this, OpenSourceLicensesActivity.class));
+            startActivity(new Intent(this, LicensesActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

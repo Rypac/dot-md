@@ -57,7 +57,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".OpenSourceLicensesActivity"
+            android:name=".LicensesActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

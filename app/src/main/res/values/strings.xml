@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">.md</string>
-    <string name="open_source_licenses">Open source licenses</string>
     <string name="file_selection_description">Select a Markdown file to view</string>
     <string name="no_markdown_error">No markdown received.</string>
+    <string name="title_licenses">Open source licenses</string>
+    <string name="action_licenses">Open source licenses</string>
 </resources>
