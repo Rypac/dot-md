@@ -9,3 +9,8 @@ A simple and fast markdown viewer for Android.
 - Support for CommonMark and GitHub flavoured markdown
 - Zero permissions
 - Completely free and open source
+
+### Screenshots
+
+![Menu](docs/menu.png "Menu")
+![Preview](docs/preview.png "Markdown preview")
