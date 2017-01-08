@@ -57,13 +57,14 @@ class MarkdownViewerActivity : AppCompatActivity() {
         parseMarkdownTask?.cancel(true)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-            return true
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
-    }
 
     private fun displayErrorAndExit(error: String) {
         Snackbar
@@ -108,7 +109,6 @@ class MarkdownViewerActivity : AppCompatActivity() {
             } else {
                 displayErrorAndExit(resources.getString(R.string.error_parsing_markdown_file))
             }
-
         }
     }
 

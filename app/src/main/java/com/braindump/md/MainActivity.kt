@@ -36,13 +36,14 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_licenses) {
-            startActivity(Intent(this, LicensesActivity::class.java))
-            return true
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.action_licenses -> {
+                startActivity(Intent(this, LicensesActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
-    }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
