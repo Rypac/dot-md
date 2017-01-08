@@ -1,5 +1,7 @@
 buildscript {
+    ext.android_support_version = '25.1.0'
     ext.kotlin_version = '1.0.6'
+    ext.anko_version = '0.9.1'
     repositories {
         jcenter()
     }
