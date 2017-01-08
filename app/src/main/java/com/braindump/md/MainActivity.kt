@@ -14,17 +14,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
-        setSupportActionBar(toolbar)
 
-        val fab = findViewById(R.id.fab) as FloatingActionButton
-        fab.setOnClickListener {
-            startActivityForResult(
-                Intent(Intent.ACTION_GET_CONTENT)
-                    .addCategory(Intent.CATEGORY_OPENABLE)
-                    .setType("application/*"),
-                READ_REQUEST_CODE
-            )
+        with(findViewById(R.id.toolbar) as Toolbar) {
+            setSupportActionBar(this)
+        }
+
+        with(findViewById(R.id.fab) as FloatingActionButton) {
+            setOnClickListener {
+                startActivityForResult(
+                    Intent(Intent.ACTION_GET_CONTENT)
+                        .addCategory(Intent.CATEGORY_OPENABLE)
+                        .setType("application/*"),
+                    READ_REQUEST_CODE
+                )
+            }
         }
     }
 

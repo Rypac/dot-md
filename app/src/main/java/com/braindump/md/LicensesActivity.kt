@@ -11,8 +11,10 @@ class LicensesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_licenses)
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
-        setSupportActionBar(toolbar)
+
+        with(findViewById(R.id.toolbar) as Toolbar) {
+            setSupportActionBar(this)
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         with(findViewById(R.id.license_web_view) as WebView) {
