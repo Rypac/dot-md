@@ -15,8 +15,9 @@ class LicensesActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val webView = findViewById(R.id.license_web_view) as WebView
-        webView.loadUrl("file:///android_asset/licenses.html")
+        with(findViewById(R.id.license_web_view) as WebView) {
+            loadUrl("file:///android_asset/licenses.html")
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

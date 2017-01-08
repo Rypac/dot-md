@@ -41,7 +41,7 @@ class MarkdownViewerActivity : AppCompatActivity() {
             actionBar?.title = this
         }
 
-        if (fileName?.contains(markdownExtension) ?: false) {
+        if (fileName?.contains(markdownExtension) == true) {
             parseMarkdownTask = ParseMarkdownTask().apply {
                 execute(data)
             }
@@ -100,11 +100,13 @@ class MarkdownViewerActivity : AppCompatActivity() {
 
         override fun onPostExecute(markdown: String?) {
             if (markdown != null) {
-                val htmlTextView = findViewById(R.id.rendered_markdown) as HtmlTextView
-                htmlTextView.setHtml(markdown)
+                with(findViewById(R.id.rendered_markdown) as HtmlTextView) {
+                    setHtml(markdown)
+                }
             } else {
                 displayErrorAndExit(resources.getString(R.string.error_parsing_markdown_file))
             }
+
         }
     }
 
