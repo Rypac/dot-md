@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         with(findViewById(R.id.toolbar) as Toolbar) {
+            title = resources.getString(R.string.title_main)
             setSupportActionBar(this)
         }
 

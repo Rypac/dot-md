@@ -27,6 +27,7 @@ class MarkdownViewerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_markdown_viewer)
 
         with(findViewById(R.id.toolbar) as Toolbar) {
+            title = resources.getString(R.string.title_markdown_viewer)
             setSupportActionBar(this)
         }
 
@@ -103,7 +104,7 @@ class MarkdownViewerActivity : AppCompatActivity() {
 
         override fun onPostExecute(markdown: String?) {
             if (markdown != null) {
-                with(findViewById(R.id.rendered_markdown) as HtmlTextView) {
+                with(findViewById(R.id.scrollable_html_text_view) as HtmlTextView) {
                     setHtml(markdown)
                 }
             } else {

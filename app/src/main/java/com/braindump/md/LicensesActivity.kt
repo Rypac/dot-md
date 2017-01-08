@@ -13,11 +13,12 @@ class LicensesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_licenses)
 
         with(findViewById(R.id.toolbar) as Toolbar) {
+            title = resources.getString(R.string.title_licenses)
             setSupportActionBar(this)
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        with(findViewById(R.id.licenses) as HtmlTextView) {
+        with(findViewById(R.id.scrollable_html_text_view) as HtmlTextView) {
             setHtml(R.raw.licenses)
         }
     }
