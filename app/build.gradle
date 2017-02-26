@@ -44,6 +44,5 @@ dependencies {
     compile "com.atlassian.commonmark:commonmark-ext-gfm-strikethrough:$commonmark"
     compile "com.atlassian.commonmark:commonmark-ext-ins:$commonmark"
 
-    compile 'org.sufficientlysecure:html-textview:3.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

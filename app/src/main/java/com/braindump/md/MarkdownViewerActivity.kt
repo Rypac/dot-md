@@ -9,14 +9,8 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-
-import org.commonmark.parser.Parser
-import org.commonmark.renderer.html.HtmlRenderer
-import org.commonmark.ext.ins.InsExtension
-import org.commonmark.ext.autolink.AutolinkExtension
-import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension
-import org.commonmark.ext.gfm.tables.TablesExtension
-import org.sufficientlysecure.htmltextview.HtmlTextView
+import android.webkit.WebView
+import com.braindump.md.utils.MarkdownRenderer
 
 import java.io.BufferedReader
 import java.io.IOException
@@ -94,15 +88,7 @@ class MarkdownViewerActivity : AppCompatActivity() {
                 contentResolver.openInputStream(params[0])?.use { inputStream ->
                     InputStreamReader(inputStream).use { inputStreamReader ->
                         BufferedReader(inputStreamReader).use { reader ->
-                            val extensions = listOf(
-                                TablesExtension.create(),
-                                StrikethroughExtension.create(),
-                                AutolinkExtension.create(),
-                                InsExtension.create()
-                            )
-                            val parser = Parser.builder().extensions(extensions).build()
-                            val renderer = HtmlRenderer.builder().build()
-                            markdown = renderer.render(parser.parseReader(reader))
+                            markdown = MarkdownRenderer().render(reader)
                         }
                     }
                 }
@@ -114,8 +100,8 @@ class MarkdownViewerActivity : AppCompatActivity() {
 
         override fun onPostExecute(markdown: String?) {
             if (markdown != null) {
-                with(findViewById(R.id.scrollable_html_text_view) as HtmlTextView) {
-                    setHtml(markdown)
+                with(findViewById(R.id.scrollable_html_text_view) as WebView) {
+                    loadDataWithBaseURL("about:blank", markdown, "text/html", "UTF-8", "about:blank")
                 }
             } else {
                 displayErrorAndExit(resources.getString(R.string.error_parsing_markdown_file))
