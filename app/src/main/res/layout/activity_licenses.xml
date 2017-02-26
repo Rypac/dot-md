@@ -9,6 +9,6 @@
 
     <include layout="@layout/app_bar" />
 
-    <include layout="@layout/scrollable_html_text_view" />
+    <include layout="@layout/markdown_view" />
 
 </android.support.design.widget.CoordinatorLayout>

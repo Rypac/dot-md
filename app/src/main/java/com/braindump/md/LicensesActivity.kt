@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-import org.sufficientlysecure.htmltextview.HtmlTextView
+import android.webkit.WebView
 
 class LicensesActivity : AppCompatActivity() {
 
@@ -18,8 +18,8 @@ class LicensesActivity : AppCompatActivity() {
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        with(findViewById(R.id.scrollable_html_text_view) as HtmlTextView) {
-            setHtml(R.raw.licenses)
+        with(findViewById(R.id.scrollable_html_text_view) as WebView) {
+            loadUrl("file:///android_res/raw/licenses.html")
         }
     }
 
