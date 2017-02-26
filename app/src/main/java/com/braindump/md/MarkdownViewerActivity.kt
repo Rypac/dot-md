@@ -12,6 +12,10 @@ import android.view.MenuItem
 
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
+import org.commonmark.ext.ins.InsExtension
+import org.commonmark.ext.autolink.AutolinkExtension
+import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension
+import org.commonmark.ext.gfm.tables.TablesExtension
 import org.sufficientlysecure.htmltextview.HtmlTextView
 
 import java.io.BufferedReader
@@ -90,7 +94,13 @@ class MarkdownViewerActivity : AppCompatActivity() {
                 contentResolver.openInputStream(params[0])?.use { inputStream ->
                     InputStreamReader(inputStream).use { inputStreamReader ->
                         BufferedReader(inputStreamReader).use { reader ->
-                            val parser = Parser.builder().build()
+                            val extensions = listOf(
+                                TablesExtension.create(),
+                                StrikethroughExtension.create(),
+                                AutolinkExtension.create(),
+                                InsExtension.create()
+                            )
+                            val parser = Parser.builder().extensions(extensions).build()
                             val renderer = HtmlRenderer.builder().build()
                             markdown = renderer.render(parser.parseReader(reader))
                         }
